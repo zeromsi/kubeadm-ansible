@@ -1,0 +1,36 @@
+---
+
+- name: Install ntp
+  apt:
+     name: "{{ item }}"
+     state: present
+     update_cache: yes
+  loop:
+    - ntp
+    - curl
+    - apt-transport-https
+
+- name:  getting apt-key.gpg
+  shell:
+    cmd: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg |  apt-key add -
+
+- name: Creating a repository file for Kubernetes
+  file:
+    path: /etc/apt/sources.list.d/kubernetes.list
+    state: touch
+
+- name: Adding repository details in Kubernetes repo file.
+  blockinfile:
+    path: /etc/apt/sources.list.d/kubernetes.list
+    block: |
+         deb https://apt.kubernetes.io/ kubernetes-xenial main   
+
+- name: Install kubelet kubeadm kubectl
+  apt:
+     name: "{{ item }}"
+     state: present
+     update_cache: yes
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
