@@ -9,8 +9,36 @@
     - ntp
     - curl
     - apt-transport-https
+    - ca-certificates 
+    - software-properties-common
 
-- name:  getting apt-key.gpg
+##### Docker 
+- name:  getting apt-key.gpg for docker
+  shell:
+    cmd: "{{ item }}"
+  loop:
+    - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    - add-apt-repository  "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
+
+- name: Install docker
+  apt:
+     name: "{{ item }}"
+     state: present
+     update_cache: yes
+  loop:
+    - docker-ce={{ docker_ce_ubuntu }}
+
+- name: Setup docker daemon.
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+
+- name: Copy docker deamon iles
+  template: src=daemon.json.j2  dest=/etc/docker/daemon.json
+  notify: restart docker      
+
+##### K8      
+- name:  getting apt-key.gpg Kubernetes
   shell:
     cmd: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg |  apt-key add -
 
