@@ -1,2 +1,4 @@
 docker_ce_ubuntu: 18.06.2~ce~3-0~ubuntu
 docker_ce_redhat: docker-ce-18.06.2.ce
+
+ubunutu_k8_version: 1.15.6-00

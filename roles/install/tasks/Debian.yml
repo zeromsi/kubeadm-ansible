@@ -59,6 +59,7 @@
      state: present
      update_cache: yes
   loop:
-    - kubelet
-    - kubeadm
-    - kubectl
+    - kubelet={{ ubunutu_k8_version }}
+    - kubectl={{ ubunutu_k8_version }}
+    - kubeadm={{ ubunutu_k8_version }}
+
