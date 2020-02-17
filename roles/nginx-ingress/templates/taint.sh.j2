@@ -6,5 +6,5 @@
 {% for host in groups['kube-ingress'] %} kubectl taint nodes {{ host }} dedicated=ingress:NoSchedule ;  {% endfor %}
 {% endmacro -%}
 
-{{ label() }}; 
-{{ taint() }};
+{{ label() }} 
+{{ taint() }}
