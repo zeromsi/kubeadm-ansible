@@ -1,0 +1,10 @@
+kubectl label nodes kube-storage-0  dedicated=storage
+kubectl label nodes kube-storage-1  dedicated=storage
+kubectl label nodes kube-storage-2  dedicated=storage
+
+kubectl taint nodes kube-storage-0  dedicated=storage:NoSchedule
+kubectl taint nodes kube-storage-1  dedicated=storage:NoSchedule
+kubectl taint nodes kube-storage-2  dedicated=storage:NoSchedule
+
+
+kubectl create namespace storage
