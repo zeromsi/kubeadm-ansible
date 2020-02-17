@@ -12,3 +12,5 @@ echo "sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config" >>  /var/kloverc
 echo "sudo chown $(id -u):$(id -g) $HOME/.kube/config " >>  /var/klovercloud.com/cache/master_join.sh
 
 echo $JOIN > /var/klovercloud.com/cache/worker_join.sh
+
+chmod 755  /var/klovercloud.com/cache/*

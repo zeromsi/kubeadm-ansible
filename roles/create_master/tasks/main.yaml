@@ -15,8 +15,8 @@
 - name: Copy kube config files
   template: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
-     - { src: 'kubeadm-config.yaml.j2', dest: '/etc/kubernetes/kubeadm/kubeadm-config.yaml'  }  
      - { src: 'calico.yaml.j2', dest: '/etc/kubernetes/kubeadm/calico.yaml'  }  
+     - { src: 'dashboard.yaml.j2', dest: '/etc/kubernetes/kubeadm/dashboard.yaml'  }  
   when: >
     inventory_hostname in groups['kube-master'] and
     inventory_hostname == "kube-master-0" and
@@ -29,10 +29,16 @@
     inventory_hostname == "kube-master-0" and
     command_result.rc != 0
 
-- name:  Create master
-  shell:  rm -rf $HOME/.kube; mkdir -p $HOME/.kube; sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config;  sudo chown $(id -u):$(id -g) $HOME/.kube/config; kubectl apply -f /etc/kubernetes/kubeadm/calico.yaml;
+- name:  Create .kube dir
+  shell:  rm -rf $HOME/.kube; mkdir -p $HOME/.kube; sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config;  sudo chown $(id -u):$(id -g) $HOME/.kube/config; 
   when: >
     inventory_hostname in groups['kube-master'] and
     inventory_hostname == "kube-master-0" and
     command_result.rc != 0
 
+- name:  Create calico
+  shell: kubectl apply -f /etc/kubernetes/kubeadm/calico.yaml;
+  when: >
+    inventory_hostname in groups['kube-master'] and
+    inventory_hostname == "kube-master-0" and
+    command_result.rc != 0
