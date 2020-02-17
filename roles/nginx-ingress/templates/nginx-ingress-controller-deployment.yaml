@@ -11,6 +11,20 @@ spec:
       labels:
         app: nginx-ingress-lb
     spec:
+      tolerations:
+        - effect: NoSchedule
+          key: dedicated
+          operator: Equal
+          value: ingress
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dedicated
+                operator: In
+                values:
+                - ingress
       terminationGracePeriodSeconds: 60
       serviceAccount: nginx
       containers:

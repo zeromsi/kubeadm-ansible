@@ -15,6 +15,7 @@
      - { src: 'nginx-ingress-controller-roles.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
      - { src: 'nginx-ingress-controller-service.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
      - { src: 'nginx-ingress.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
+     - { src: 'taint.sh.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/taint.sh'  }  
   when: >
     inventory_hostname == "kube-master-0"
   register: result
@@ -27,6 +28,12 @@
 
 - name:  deploy ingress
   shell: kubectl apply -n nginx-ingress -f /etc/kubernetes/kubeadm/nginx-ingress/;
+  when: >
+    inventory_hostname == "kube-master-0" 
+  ignore_errors: yes
+
+- name:  label and taint ingress box
+  shell: sh /etc/kubernetes/kubeadm/nginx-ingress/taint.sh;
   when: >
     inventory_hostname == "kube-master-0" 
   ignore_errors: yes
