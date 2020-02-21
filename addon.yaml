@@ -1,4 +1,8 @@
 ---
 - hosts: kube-master
   roles:
-     - nginx-ingress
+          #     - nginx-ingress
+
+- hosts: kube-master
+  roles:
+     - storage

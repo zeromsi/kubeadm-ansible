@@ -84,14 +84,14 @@ spec:
             - key: dedicated
               operator: In
               values:
-              - storage
+              - {{ storage_taint }}
       podAffinity:
       podAntiAffinity:
       tolerations:
       - effect: NoSchedule
         key: dedicated
         operator: Equal
-        value: storage
+        value: {{ storage_taint }}
 # The above placement information can also be specified for mon, osd, and mgr components
 #    mon:
 # Monitor deployments may contain an anti-affinity rule for avoiding monitor
@@ -130,7 +130,7 @@ spec:
   storage: # cluster level storage configuration and selection
     useAllNodes: true
     useAllDevices: false
-    deviceFilter: "^sd[b-p]"
+    deviceFilter: "^sd[b-z]"
 #    devicePathFilter : "^/dev/sda1"
 #    devices:
 #    - name: "sda1"
