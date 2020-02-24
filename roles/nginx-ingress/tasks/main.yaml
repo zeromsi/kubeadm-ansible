@@ -8,17 +8,21 @@
 - name: Copy kube config files
   template: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
-     - { src: 'default-backend-deployment.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
-     - { src: 'default-backend-service.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
-     - { src: 'nginx-ingress-controller-config-map.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
-     - { src: 'nginx-ingress-controller-deployment.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
-     - { src: 'nginx-ingress-controller-roles.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
-     - { src: 'nginx-ingress-controller-service.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
-     - { src: 'nginx-ingress.yaml', dest: '/etc/kubernetes/kubeadm/nginx-ingress/'  }  
-     - { src: 'taint.sh.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/taint.sh'  }  
+     - { src: 'nginx.yaml.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/nginx.yaml'  }  
+     - { src: 'envoy.yaml.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/envoy.yaml'  }  
   when: >
     inventory_hostname == "kube-master-0"
   register: result
+
+- name: Copy envoy config file
+  template: src="{{ item.src }}" dest="{{ item.dest }}"
+  with_items:
+     - { src: 'taint.sh.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/taint.sh'  }  
+  when: >
+    inventory_hostname == "kube-master-0"
+  notify: restart envoy
+  register: result
+
 
 - name:  Create namespace
   shell: kubectl create namespace nginx-ingress;
@@ -27,7 +31,7 @@
   ignore_errors: yes
 
 - name:  deploy ingress
-  shell: kubectl apply -n nginx-ingress -f /etc/kubernetes/kubeadm/nginx-ingress/;
+  shell: kubectl apply -n nginx-ingress -f /etc/kubernetes/kubeadm/nginx-ingress/nginx.yaml;
   when: >
     inventory_hostname == "kube-master-0" 
   ignore_errors: yes
