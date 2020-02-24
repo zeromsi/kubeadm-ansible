@@ -15,6 +15,7 @@
 - name: Copy kube config files
   template: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:
+     - { src: ' kubeadm-config.yaml.j2', dest: '/etc/kubernetes/kubeadm/kubeadm-config.yaml`'  }  
      - { src: 'calico.yaml.j2', dest: '/etc/kubernetes/kubeadm/calico.yaml'  }  
      - { src: 'dashboard.yaml.j2', dest: '/etc/kubernetes/kubeadm/dashboard.yaml'  }  
   when: >

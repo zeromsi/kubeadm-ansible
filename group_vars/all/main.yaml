@@ -11,3 +11,5 @@ ingress_hostname: www.klovercloud.com
 nginx_ingress_http: 30080
 nginx_ingress_https: 30443
 nginx_ingress_http_mgmt: 18080
+kube_master_lb: 10.20.0.13
+kube_master_lb: 10.20.0.13
