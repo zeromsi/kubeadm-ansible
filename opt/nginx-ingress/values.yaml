@@ -53,7 +53,7 @@ controller:
   ## Required only if defaultBackend.enabled = false
   ## Must be <namespace>/<service_name>
   ##
-  defaultBackendService: ""
+  defaultBackendService: "nginx-ingress"
 
   ## Election ID to use for status update
   ##

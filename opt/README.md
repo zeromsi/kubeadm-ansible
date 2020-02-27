@@ -18,3 +18,10 @@ tar xvf
 helm  template -name my-release nginx-ingress
 
 change the RELEASE to lower case
+
+
+
+Change the following default to correct namespace
+
+
+- --default-backend-service=default/release-nginx-ingress-default-backe

@@ -221,7 +221,7 @@ spec:
       port: 80
       protocol: TCP
       targetPort: http
-      nodePort: 30800
+      nodePort: 30080
     - name: https
       port: 443
       protocol: TCP
@@ -307,10 +307,10 @@ spec:
           imagePullPolicy: "IfNotPresent"
           args:
             - /nginx-ingress-controller
-            - --default-backend-service=default/release-nginx-ingress-default-backend
+            - --default-backend-service=nginx-ingress/release-nginx-ingress-default-backend
             - --election-id=ingress-controller-leader
             - --ingress-class=nginx
-            - --configmap=default/release-nginx-ingress-controller
+            - --configmap=nginx-ingress/release-nginx-ingress-controller
           securityContext:
             capabilities:
                 drop:
