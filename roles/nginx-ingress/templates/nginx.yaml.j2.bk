@@ -1,3 +1,4 @@
+---
 # Source: nginx-ingress/templates/controller-serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -9,7 +10,7 @@ metadata:
     release: release
   name: release-nginx-ingress
 ---
-# Source: nginx-ingress/templates/nginx-ingress-backend-serviceaccount.yaml
+# Source: nginx-ingress/templates/default-backend-serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -220,11 +221,11 @@ spec:
       port: 80
       protocol: TCP
       targetPort: http
-      nodePort: {{ nginx_http_port }}
+      nodePort: 30080
     - name: https
       port: 443
       protocol: TCP
-      nodePort: {{ nginx_https_port }}
+      nodePort: 30443
       targetPort: https
   selector:
     app: nginx-ingress
@@ -232,17 +233,17 @@ spec:
     release: release
   type: "NodePort"
 ---
-# Source: nginx-ingress/templates/nginx-ingress-backend-service.yaml
+# Source: nginx-ingress/templates/default-backend-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: nginx-ingress
     chart: nginx-ingress-1.31.0
-    component: "nginx-ingress-backend"
+    component: "default-backend"
     heritage: Helm
     release: release
-  name: release-nginx-ingress-nginx-ingress-backend
+  name: release-nginx-ingress-default-backend
 spec:
   ports:
     - name: http
@@ -251,7 +252,7 @@ spec:
       targetPort: http
   selector:
     app: nginx-ingress
-    component: "nginx-ingress-backend"
+    component: "default-backend"
     release: release
   type: "ClusterIP"
 ---
@@ -273,7 +274,7 @@ spec:
     matchLabels:
       app: nginx-ingress
       release: release
-  replicas: {{ nginx_controller_replica }}
+  replicas: {{ nginx_replica }}
   revisionHistoryLimit: 10
   strategy:
     {}
@@ -302,11 +303,11 @@ spec:
                 - ingress
       containers:
         - name: nginx-ingress-controller
-          image: "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:{{ nginx_ingress_controller_image }}"
+          image: "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.29.0"
           imagePullPolicy: "IfNotPresent"
           args:
             - /nginx-ingress-controller
-            - --nginx-ingress-backend-service=default/release-nginx-ingress-default-backend
+            - --default-backend-service=nginx-ingress/release-nginx-ingress-default-backend
             - --election-id=ingress-controller-leader
             - --ingress-class=nginx
             - --configmap=nginx-ingress/release-nginx-ingress-controller
@@ -360,29 +361,29 @@ spec:
       serviceAccountName: release-nginx-ingress
       terminationGracePeriodSeconds: 60
 ---
-# Source: nginx-ingress/templates/nginx-ingress-backend-deployment.yaml
+# Source: nginx-ingress/templates/default-backend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: nginx-ingress
     chart: nginx-ingress-1.31.0
-    component: "nginx-ingress-backend"
+    component: "default-backend"
     heritage: Helm
     release: release
-  name: release-nginx-ingress-nginx-ingress-backend
+  name: release-nginx-ingress-default-backend
 spec:
   selector:
     matchLabels:
       app: nginx-ingress
       release: release
-  replicas: {{ nginx_backend_replica }}
+  replicas: {{ nginx_replica }}
   revisionHistoryLimit: 10
   template:
     metadata:
       labels:
         app: nginx-ingress
-        component: "nginx-ingress-backend"
+        component: "default-backend"
         release: release
     spec:
       tolerations:
@@ -400,8 +401,8 @@ spec:
                 values:
                 - ingress
       containers:
-        - name: nginx-ingress-nginx-ingress-backend
-          image: "k8s.gcr.io/nginx-ingressbackend-amd64:{{ nginx_ingress_default_backend_image }}"
+        - name: nginx-ingress-default-backend
+          image: "k8s.gcr.io/defaultbackend-amd64:1.5"
           imagePullPolicy: "IfNotPresent"
           args:
           securityContext:
