@@ -6,6 +6,7 @@
      - { src: 'nginx.yaml.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/nginx.yaml'  }  
      - { src: 'taint.sh.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/taint.sh'  }  
      - { src: 'deploy.sh.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/deploy.sh'  }  
+     - { src: 'echo-server.yaml.j2', dest: '/etc/kubernetes/kubeadm/nginx-ingress/echo-server.yaml'  }  
   when: >
     inventory_hostname == "kube-master-0"
   register: result
