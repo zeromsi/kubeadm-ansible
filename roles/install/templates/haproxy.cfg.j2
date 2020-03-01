@@ -43,10 +43,16 @@ frontend http
     default_backend http_back
 
 frontend https
-    # Only bind on 80 if you also want to listen for connections on 80
-    bind *:80
+    # Only bind on 443 if you also want to listen for connections on 80
+    bind *:443
     mode tcp
     default_backend https_back
+
+frontend health
+    # Only bind on 443 if you also want to listen for connections on 80
+    bind *:10254
+    mode tcp
+    default_backend http_health
 
 backend http_back
     mode tcp
@@ -57,3 +63,8 @@ backend https_back
     mode tcp
     # Add an entry for each of your backend servers and their resolvable hostnames
     server svr 127.0.0.1:30443 check
+
+backend http_health
+    mode tcp
+    # Add an entry for each of your backend servers and their resolvable hostnames
+    server svr 127.0.0.1:30254 check
