@@ -1,5 +1,11 @@
 ---
 
+- name: Creates /etc/kubernetes/kubeadm/nginx-ingress directory
+  file: path=/etc/kubernetes/kubeadm/nginx-ingress  recurse=yes state=directory
+  when: >
+    inventory_hostname == "kube-master-0"
+
+
 - name: Copy ingress config file
   template: src="{{ item.src }}" dest="{{ item.dest }}"
   with_items:

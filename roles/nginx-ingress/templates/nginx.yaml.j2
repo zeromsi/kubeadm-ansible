@@ -97,10 +97,15 @@ spec:
   ports:
     - port: 80
       name: http
+      nodePort: 30080
     - port: 443
       name: https
+      nodePort: 30443
     - port: 18080
       name: http-mgmt
+    - port: 10254
+      name: health
+      nodePort: 30254
   selector:
     app: nginx-ingress-lb
 
@@ -167,10 +172,7 @@ spec:
                   fieldPath: metadata.namespace
           ports:
             - containerPort: 80
-              hostPort: 80
             - containerPort: 443
-              hostPort: 443
             - containerPort: 18080
             - containerPort: 10254
-              hostPort: 10254
 
