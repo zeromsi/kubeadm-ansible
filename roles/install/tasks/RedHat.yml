@@ -31,6 +31,14 @@
     path: /etc/docker
     state: directory
 
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
+
+- name: Disable SELinux
+  shell: setenforce 0
+
 - name: ansible create docker.service.d
   file:
     path: /etc/systemd/system/docker.service.d
