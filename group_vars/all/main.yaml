@@ -1,5 +1,5 @@
 docker_ce_ubuntu: 18.06.2~ce~3-0~ubuntu
-docker_ce_redhat: 19.03.4
+docker_ce_redhat: 18.09.9
 containerd: 1.2.10
 
 ubunutu_k8_version: 1.15.6-00
