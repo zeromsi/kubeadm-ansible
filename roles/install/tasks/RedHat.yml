@@ -19,9 +19,9 @@
      state: present
      update_cache: yes
   loop:
-    - containerd.io-1.2.10
-    - docker-ce-19.03.4
-    - docker-ce-cli-19.03.4
+    - containerd.io-{{ containerd }}
+    - docker-ce-{{ docker_ce_redhat }}
+    - docker-ce-cli-{{ docker_ce_redhat }}
 
 - name: ansible /etc/docker
   file:
@@ -61,6 +61,6 @@
      state: present
      update_cache: yes
   loop:
-    - kubelet
-    - kubeadm
-    - kubectl
+    - kubelet-{{ redhat_k8_version }}
+    - kubeadm-{{ redhat_k8_version }} 
+    - kubectl-{{ redhat_k8_version }}
