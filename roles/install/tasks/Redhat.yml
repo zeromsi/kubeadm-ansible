@@ -1,3 +1,34 @@
+---
+
+- name: install yum-utils device-mapper-persistent-data lvm2
+  yum:
+     name: "{{ item }}"
+     state: present
+     update_cache: yes
+  loop:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+
+- name: Add repository
+  yum_repository:
+    name: docker-ce
+    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: install yum-utils device-mapper-persistent-data lvm2
+  yum:
+     name: "{{ item }}"
+     state: present
+     update_cache: yes
+  loop:
+    - containerd.io-1.2.10
+    - docker-ce-19.03.4
+    - docker-ce-cli-19.03.4
+
+- name: Copy docker deamon iles
+  template: src=docker-daemon-centos.json.j2  dest=/etc/docker/daemon.json
+  notify: restart docker      
+
 - name: Creating a repository file for Kubernetes
     file:
      path: /etc/yum.repos.d/kubernetes.repo
