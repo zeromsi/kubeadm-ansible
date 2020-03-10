@@ -1,0 +1,2 @@
+ssh kube-master-0 "mkdir ~/mysql"
+scp secret.yaml kube-master-0:~/mysql
