@@ -26,9 +26,3 @@
   ignore_errors: yes
 
 
-- name:  deploy storage
-  shell: kubectl apply  -f /etc/kubernetes/kubeadm/storage/;
-  when: >
-    inventory_hostname == "kube-master-0" 
-  ignore_errors: yes
-
