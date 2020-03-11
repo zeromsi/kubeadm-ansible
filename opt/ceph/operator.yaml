@@ -298,8 +298,8 @@ spec:
         #       key: node-role.kubernetes.io/etcd
         #       operator: Exists
         # (Optional) Ceph CSI plugin NodeAffinity.
-        - name: CSI_PLUGIN_NODE_AFFINITY
-          value: "dedicated=storage"
+        # - name: CSI_PLUGIN_NODE_AFFINITY
+        #  value: "dedicated=storage"
         #   value: "role=storage-node; storage=rook, ceph"
         # (Optional) CEPH CSI plugin tolerations list. Put here list of taints you want to tolerate in YAML format.
         # CSI plugins need to be started on all the nodes where the clients need to mount the storage.
