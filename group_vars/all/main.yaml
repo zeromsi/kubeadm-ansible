@@ -1,8 +1,9 @@
 docker_ce_ubuntu: 18.06.2~ce~3-0~ubuntu
-docker_ce_redhat: docker-ce-18.06.2.ce
+docker_ce_redhat: 18.09.9
+containerd: 1.2.10
 
 ubunutu_k8_version: 1.15.6-00
-
+redhat_k8_version: 1.15.10-0
 
 ##### nginx ingress ########
 nginx_ingress_controller_version: 0.29.0
@@ -11,9 +12,5 @@ ingress_hostname: www.klovercloud.com
 nginx_ingress_http: 30080
 nginx_ingress_https: 30443
 nginx_ingress_http_mgmt: 18080
-kube_master_lb: 10.20.0.13
-kube_master_lb: 10.20.0.13
-kube_master_lb: 10.20.0.13
-kube_master_lb: 10.20.0.13
 kube_master_lb: 10.20.0.13
 kube_master_lb: 10.20.0.13

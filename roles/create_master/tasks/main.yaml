@@ -39,8 +39,8 @@
     command_result.rc != 0
 
 - name:  Create calico
-  #shell: kubectl apply -f /etc/kubernetes/kubeadm/calico.yaml;
-  shell: kubectl apply -f /etc/kubernetes/kubeadm/kube-flannel.yaml;
+  shell: kubectl apply -f /etc/kubernetes/kubeadm/calico.yaml;
+  #shell: kubectl apply -f /etc/kubernetes/kubeadm/kube-flannel.yaml;
   when: >
     inventory_hostname in groups['kube-master'] and
     inventory_hostname == "kube-master-0" and
