@@ -4,7 +4,9 @@ scp  common.yaml kube-master-0:~/ceph
 scp  operator.yaml kube-master-0:~/ceph 
 scp  cluster.yaml kube-master-0:~/ceph 
 scp  StorageClass.yaml kube-master-0:~/ceph 
+scp  StorageClassEC.yaml kube-master-0:~/ceph 
 ssh kube-master-0 "kubectl apply -f ~/ceph/common.yaml"
 ssh kube-master-0 "kubectl apply -f ~/ceph/operator.yaml"
 ssh kube-master-0 "kubectl apply -f ~/ceph/cluster.yaml"
 ssh kube-master-0 "kubectl apply -f ~/ceph/StorageClass.yaml"
+ssh kube-master-0 "kubectl apply -f ~/ceph/StorageClassEC.yaml"
