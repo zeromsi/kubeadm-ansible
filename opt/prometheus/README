@@ -1,0 +1,11 @@
+https://www.infracloud.io/cortex-prometheus-ha/
+#helm  pull stable/prometheus
+#tar xvf prometheus-11.0.2.tgz ; rm -f prometheus-11.0.2.tgz;
+
+
+
+helm  template -name monitoring --namespace=monitoring prometheus --set server.global.external_labels.cluster=one --set serverFiles."prometheus\.yml".remote_write[0].url=http://nginx.cortex.svc.cluster.local:80/api/prom/push prometheus > prometheus.yaml
+
+ssh kube-master-0 "mkdir -p ~/prom"
+scp  prometheus.yaml  kube-master-0:~/prom
+ssh kube-master-0 "kubectl apply -f ~/prom"
